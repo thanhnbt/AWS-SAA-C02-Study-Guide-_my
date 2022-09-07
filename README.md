@@ -1089,7 +1089,9 @@ Elastic Load Balancing automatically distributes incoming application traffic ac
 
 ELB tự động phân phối tải vào ứng dụng thông qua multiple targets, ví dụ như EC2, Docker container, IP addresses, Lambda. Nó có thể xử lý được traffic của ứng dụng trong 1 single Available Zone hoặc cross multiple AZ. ELB cung cấp 3 loại cân bằng tải gồm tất cả feature của HA, auto scaling, và bảo mật để đảm bảo ứng dụng của bạn có thể chịu được lỗi 
 
-### ELB Key Details:
+### ELB Key Details: 
+
+
 - Load balancers can be internet facing or application internal.
 - To route domain traffic to an ELB load balancer, use Amazon Route 53 to create an Alias record that points to your load balancer. An Alias record is preferable over a CName, but both can work.
 - ELBs do not have predefined IPv4 addresses; you must resolve them with DNS instead. Your load balancer will never have its own IP by default, but you can create a static IP for a network load balancer because network LBs are for high performance purposes.
@@ -1100,6 +1102,21 @@ When an EC2 instance behind an ELB fails a health check, the ELB stops sending t
   - Application LBs
   - Network LBs
   - Classic LBs.
+  
+*******
+- Load balancer có thể ở ngoài internet hoặc internal applicaiton 
+- Để route domain traffic tới 1 ELB Load Balacer sử dụng Amazon Route 53 để tạo 1 Alias record mà trỏ đến load balancer. Một bản ghi Alias được preferable qua 1 CNAME, nhưng cả 2 cách đều có thể work.
+- ELB không cài đặt địa chỉ IPv4 trước, bạn phải xử lý bằng DNS. Load balancer không bao giờ có địa chỉ IP mặc định của nó, nhưng bạn có thể tạo ra 1 static IP cho 1 network LBs lý do bởi network LBs cho các mục đích high performance
+- Các instance`đứng sau 1 ELB 'InService`' hoặc 'OutOfService`'
+Khi 1 instance EC2 phía sau 1 ELB mà health check fail --> ELB stops việc gửi đến instance đó.
+- Load balancer có thể được cấu hình cho cả IP4 vs IP6
+- Trong AWS, có 3 kiểu LBs
++ Application LBs
++ Network LBs
++ Classic LBs
+
+  
+  
 - **Application LBs** are best suited for HTTP(S) traffic and they balance load on layer 7. They are intelligent enough to be application aware and Application Load Balancers also support path-based routing, host-based routing and support for containerized applications. As an example, if you change your web browser’s language into French, an Application LB has visibility of the metadata it receives from your browser which contains details about the language you use. To optimize your browsing experience, it will then route you to the French-language servers on the backend behind the LB. You can also create advanced request routing, moving traffic into specific servers based on rules that you set yourself for specific cases.
 - **Network LBs** are best suited for TCP traffic where performance is required and they balance load on layer 4. They are capable of managing millions of requests per second while maintaining extremely low latency.
 - **Classic LBs** are the legacy ELB produce and they balance either on HTTP(S) or TCP, but not both. Even though they are the oldest LBs, they still support features like sticky sessions and X-Forwarded-For headers.
